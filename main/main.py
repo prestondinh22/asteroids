@@ -6,17 +6,19 @@ from asteroidfield import *
 from shot import *
 from random import *
 from start_screen import *
+from end_screen import *
 def main():
 
     pygame.init()
     pygame.display.set_caption("Asteroids")
+    show_start_screen()
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 55)
-    title_text = font.render("My Game", True, (255, 255, 255))
-    start_text = font.render("Press any key to start", True, (255, 255, 255))
+    
 
-    show_start_screen()
+    
 
     updatables = pygame.sprite.Group()
     drawables = pygame.sprite.Group()
@@ -32,6 +34,9 @@ def main():
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, PLAYER_RADIUS)
     asteroidfield = AsteroidField()
     dt = 0
+    global score 
+    score = 0
+    
 
     
     
@@ -43,18 +48,26 @@ def main():
         updatables.update(dt)
         for obj in asteroids:
             if obj.collision(player) == True:
-                print('Game Over!')
-                raise SystemExit()
+                show_end_screen(score)
+            
         
+        
+
         for obj in asteroids:
             for shot in shots:
                 if obj.collision(shot) == True:
                     shot.kill()
-                    obj.split()
+                    if obj.split()==0:
+                        score +=1
                     
                 
-            
+
         screen.fill("black")
+        
+        font = pygame.font.Font('PressStart2P-Regular.ttf', 20)
+        title_text = font.render(f"SCORE = {score}", True, (255, 255, 255))
+        title_rect = title_text.get_rect(center=(115, 50))
+        screen.blit(title_text, title_rect)
         
         for obj in drawables:
             obj.draw(screen)

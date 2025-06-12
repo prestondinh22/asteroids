@@ -3,6 +3,8 @@ from circleshape import *
 from main import *
 import random
 
+
+
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x,y,radius)
@@ -13,7 +15,8 @@ class Asteroid(CircleShape):
     def split(self):
         self.kill()
         if self.radius <= ASTEROID_MIN_RADIUS:
-            return
+            self.kill()
+            return 0
         angle = random.uniform(20,50)
         neg_angle = -1*angle
         vector1 = self.velocity.rotate(angle)

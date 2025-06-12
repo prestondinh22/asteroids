@@ -5,12 +5,12 @@ import random
 from asteroid import *
 from asteroidfield import *
 
-def show_start_screen():
+def show_end_screen(score):
     screen = pygame.display.set_mode((1280, 720))  # Adjusted for SCREEN_WIDTH/HEIGHT
     font = pygame.font.Font('PressStart2P-Regular.ttf', 55)
     font2 = pygame.font.Font('PressStart2P-Regular.ttf', 20)
 
-    title_text = font.render("ASTEROIDS", True, (255, 255, 255))
+    title_text = font.render("GAME OVER", True, (255, 255, 255))
     title_rect = title_text.get_rect(center=(640, 300))
 
     updatables = pygame.sprite.Group()
@@ -39,7 +39,7 @@ def show_start_screen():
             
             brightness = random.randint(150, 255)
             flicker_color = (brightness, brightness, brightness)
-            start_text = font2.render("Press SPACE to start", True, flicker_color)
+            start_text = font2.render(f"FINAL SCORE: {score} | Press SPACE to EXIT", True, flicker_color)
             start_rect = start_text.get_rect(center=(630, 600))
             screen.blit(start_text, start_rect)
         
@@ -55,4 +55,6 @@ def show_start_screen():
                 quit()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
-            waiting = False
+            raise SystemExit()
+            print('Nice Try')
+            
